@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewData["Title"] = "AnimalOverView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model IEnumerable<CircusTreinView.Models.AnimalModel>
+
+@{
+    ViewBag.Title = "AnimalOverView";
+}
+
+<h2>My Animals</h2>
+
+<script src="@Url.Content("~/Scripts/jquery-ui-1.8.11.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.popup').click(function () {
+            $('<div/>').appendTo('body').dialog({
+                close: function (event, ui) {
+                    dialog.remove();
+                },
+                modal: true
+            }).load(this.href, {});
+
+            return false;
+        });
+    });
+</script>
+<div class="row">
+
+    <div class="col-xs-1">
+        @using (Html.BeginForm("Create", "AnimalModel"))
+        {
+
+            <input type="submit" class="btn" value="Create Animal" />
+        }
+    </div>
+    <div class="col-xs-1">
+        <button class="btn">@Html.ActionLink("Sort My Animals", "SortMyAnimals", "AnimalModel", new { @class = "popup" })</button>
+
+    </div>
+</div>
+
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Diet)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Diet)
+            </td>
+            <td>
+                @using (Html.BeginForm("Edit", "AnimalModel", new { id = item.Id }))
+                {
+                    <input type="submit" class="btn" value="Edit" />
+                }
+            </td>
+            <td>|</td>
+            <td>
+                @using (Html.BeginForm("DeleteAnimal", "AnimalModel", new { id = item.Id }))
+                {
+                    <input type="submit" class="btn" value="Delete" onclick="return confirm('Are you sure you want to delete @item.Name?');" />
+                }
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+

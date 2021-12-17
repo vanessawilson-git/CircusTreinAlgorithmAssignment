@@ -1,0 +1,73 @@
+﻿
+@using Logic
+
+@model View.Models.AnimalModel
+
+@{
+    ViewBag.Title ="Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add new Animal</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<form asp-action >
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-1" })
+            </div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Diet, htmlAttributes: new { @class = "control-label col-md-1" })
+            </div>
+            <div class="col-md-10">
+                @Html.DropDownList("Diet",
+                    new SelectList(Enum.GetValues(typeof(Diet))),
+                    "Select Diet",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Diet, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label col-md-1" })
+            </div>
+
+            <div class="col-md-10">
+                @Html.DropDownList("Size",
+                    new SelectList(Enum.GetValues(typeof(Size))),
+                    "Select Size",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
